@@ -42,9 +42,9 @@ class FolderController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name } = req.body;
+      const { name, idUser } = req.body;
       const id = +req.params.id;
-      const folder = await FolderService.update(name, id);
+      const folder = await FolderService.update(name, id, idUser);
       return res.json(folder);
     } catch (err: any) {
       next(err);

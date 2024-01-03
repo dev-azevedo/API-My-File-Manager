@@ -75,7 +75,7 @@ model Permission {
 
 model File {
   id Int @id @default(autoincrement())
-  path String @unique
+  idFolder Int
   nameFile String
   extension String
   createdAt DateTime? @default(now())
@@ -83,6 +83,7 @@ model File {
   createdById Int?
   updatedById Int?
 
+  folder Folder @relation(fields: [idFolder], references: [id])
   createdBy User? @relation("createdByFile", fields: [createdById], references: [id])
   updatedBy User? @relation("updatedByFile", fields: [updatedById], references: [id])
   
@@ -91,7 +92,7 @@ model File {
 
 model Folder {
   id Int @id @default(autoincrement())
-  path String @unique
+  path String
   idUser Int 
   createdAt DateTime? @default(now())
   updatedAt DateTime? @default(now())
@@ -102,6 +103,7 @@ model Folder {
   createdBy User? @relation("createdByFolder", fields: [createdById], references: [id])
   updatedBy User? @relation("updatedByFolder", fields: [updatedById], references: [id])
   permission Permission[]
+  file File[]
 
   @@map("folders")
 }

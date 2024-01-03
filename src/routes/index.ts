@@ -3,6 +3,7 @@ import UserController from "../controller/UserController";
 import ProfileController from "../controller/ProfileController";
 import RoleController from "../controller/RoleController";
 import FolderController from "../controller/FolderController";
+import FileController from "../controller/FileController";
 import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = Router();
@@ -35,5 +36,11 @@ router.get("/folder/user", isAuthenticated, FolderController.getFolderUser);
 router.get("/folder/:id", isAuthenticated, FolderController.get);
 router.put("/folder/:id", isAuthenticated, FolderController.update);
 router.delete("/folder/:id", isAuthenticated, FolderController.delete);
+
+// File
+router.post("/file", isAuthenticated, FileController.create);
+router.get("/file/folder/:id", isAuthenticated, FileController.get);
+router.put("/file/:id", isAuthenticated, FileController.update);
+router.delete("/file/:id", isAuthenticated, FileController.delete);
 
 export default router;

@@ -25,10 +25,14 @@ class FolderService {
       data: {
         path: name,
         idUser: idUser,
+        createdById: idUser,
+        updatedById: idUser,
       },
       select: {
         id: true,
         path: true,
+        createdAt: true,
+        createdById: true,
       },
     });
 
@@ -61,7 +65,7 @@ class FolderService {
     return folders;
   }
 
-  async update(name: string, idFolder: number) {
+  async update(name: string, idFolder: number, idUser: number) {
     if (!name) {
       console.error("❌ Nome da pasta incorreto.");
       throw new Error("Nome da pasta incorreto.");
@@ -73,6 +77,7 @@ class FolderService {
       },
       data: {
         path: name,
+        updatedById: idUser,
         updatedAt: new Date(),
       },
     });
