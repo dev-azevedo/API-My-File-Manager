@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  phone String
+  dateBirth DateTime
+  password String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  profileId Int
+  profile Profile @relation(fields: [profileId], references: [id])
+  
+  
+  userPermission Permission[] @relation("idUserPermission")
+  createdByPermission Permission[] @relation("createdByPermission")
+  updatedByPermission Permission[] @relation("updatedByPermission")
+
+  createdByFile File[] @relation("createdByFile")
+  updatedByFile File[] @relation("updatedByFile")
+  
+  userFolder Folder[] @relation("idUserFolder")
+  createdByFolder Folder[] @relation("createdByFolder")
+  updatedByFolder Folder[] @relation("updatedByFolder")
+
+  @@map("users")
+}
+
+model Profile {
+  id Int @id @default(autoincrement())
+  name String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  users User[]
+  @@map("profiles")
+}
+
+model Role {
+  id Int @id @default(autoincrement())
+  name String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+
+  permission Permission[]
+  @@map("roles")
+}
+
+model Permission {
+  id Int @id @default(autoincrement())
+  idUserPermission Int
+  idFolder Int
+  idRole Int
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  createdById Int?
+  updatedById Int?
+
+  userPermission User @relation("idUserPermission", fields: [idUserPermission], references: [id])
+  folder Folder @relation(fields: [idFolder], references: [id])
+  role Role @relation(fields: [idRole], references: [id])
+
+  createdBy User? @relation("createdByPermission", fields: [createdById], references: [id])
+  updatedBy User? @relation("updatedByPermission", fields: [updatedById], references: [id])
+
+  @@map("permissions")
+}
+
+model File {
+  id Int @id @default(autoincrement())
+  path String @unique
+  nameFile String
+  extension String
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  createdById Int?
+  updatedById Int?
+
+  createdBy User? @relation("createdByFile", fields: [createdById], references: [id])
+  updatedBy User? @relation("updatedByFile", fields: [updatedById], references: [id])
+  
+  @@map("files")
+}
+
+model Folder {
+  id Int @id @default(autoincrement())
+  path String @unique
+  idUser Int 
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+  createdById Int?
+  updatedById Int?
+
+  user User @relation("idUserFolder", fields: [idUser], references: [id])
+  createdBy User? @relation("createdByFolder", fields: [createdById], references: [id])
+  updatedBy User? @relation("updatedByFolder", fields: [updatedById], references: [id])
+  permission Permission[]
+
+  @@map("folders")
+}
