@@ -44,8 +44,8 @@ class FileController {
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
       const id = +req.params.id;
-      const folder = await FileService.delete(id);
-      return res.json(folder);
+      const file = await FileService.delete(id);
+      return res.json(file);
     } catch (err: any) {
       next(err);
     }

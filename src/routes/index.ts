@@ -5,6 +5,7 @@ import RoleController from "../controller/RoleController";
 import FolderController from "../controller/FolderController";
 import FileController from "../controller/FileController";
 import isAuthenticated from "../middleware/isAuthenticated";
+import PermissionController from "../controller/PermissionController";
 
 const router = Router();
 
@@ -42,5 +43,11 @@ router.post("/file", isAuthenticated, FileController.create);
 router.get("/file/folder/:id", isAuthenticated, FileController.get);
 router.put("/file/:id", isAuthenticated, FileController.update);
 router.delete("/file/:id", isAuthenticated, FileController.delete);
+
+//Permission
+router.post("/permission", isAuthenticated, PermissionController.create);
+router.get("/permission/user", isAuthenticated, PermissionController.get);
+router.put("/permission/:id", isAuthenticated, PermissionController.update);
+router.delete("/permission/:id", isAuthenticated, PermissionController.delete);
 
 export default router;

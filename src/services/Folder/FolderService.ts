@@ -56,13 +56,33 @@ class FolderService {
   }
 
   async getFolderUser(idUser: number) {
-    const folders = await prismaClient.folder.findFirst({
+    const permission = await prismaClient.permission.findMany({
+      where: {
+        idUserPermission: idUser,
+      },
+    });
+
+    const folderPromises: Promise<any>[] = permission.map(
+      async (permission) => {
+        const fold = await prismaClient.folder.findMany({
+          where: {
+            id: permission.idFolder,
+          },
+        });
+
+        return fold;
+      }
+    );
+
+    const foldersPermission = (await Promise.all(folderPromises)).flat();
+
+    const folders = await prismaClient.folder.findMany({
       where: {
         idUser: idUser,
       },
     });
 
-    return folders;
+    return foldersPermission.concat(folders);
   }
 
   async update(name: string, idFolder: number, idUser: number) {

@@ -3,25 +3,9 @@ import moment from "moment";
 import { mask } from "remask";
 
 class Helper {
-  setMaskCpfCnpj(input: string) {
-    // if (input && input.length > 0) {
-    //   return input.length === 11 ? cpf.format(input) : cnpj.format(input);
-    // }
-
-    return input;
-  }
-
   setMaskPhone(input: string) {
     if (input && input.length > 0) {
       return mask(input, ["(99) 9999-9999", "(99) 99999-9999"]);
-    }
-
-    return input;
-  }
-
-  setMaskCep(input: string) {
-    if (input && input.length > 0) {
-      return mask(input, "99999-999");
     }
 
     return input;
@@ -56,15 +40,6 @@ class Helper {
 
     return `${year}-${month}-${day}`;
   }
-
-  validateDaysOfRegister = (firstDate: Date, numberOfDay: number) => {
-    const toDay = moment.utc();
-    const dateClient = moment.utc(firstDate);
-
-    const diferencaEmDias = toDay.diff(dateClient, "days");
-
-    return diferencaEmDias === numberOfDay;
-  };
 }
 
 export default new Helper();
