@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import UserController from "../controller/UserController";
 import ProfileController from "../controller/ProfileController";
 import RoleController from "../controller/RoleController";
+import FolderController from "../controller/FolderController";
 import isAuthenticated from "../middleware/isAuthenticated";
 
 const router = Router();
@@ -26,5 +27,13 @@ router.get("/role", isAuthenticated, RoleController.getAll);
 router.get("/role/:id", isAuthenticated, RoleController.get);
 router.put("/role/:id", isAuthenticated, RoleController.update);
 router.delete("/role/:id", isAuthenticated, RoleController.delete);
+
+// Folder
+router.post("/folder", isAuthenticated, FolderController.create);
+router.get("/folder", isAuthenticated, FolderController.getAll);
+router.get("/folder/user", isAuthenticated, FolderController.getFolderUser);
+router.get("/folder/:id", isAuthenticated, FolderController.get);
+router.put("/folder/:id", isAuthenticated, FolderController.update);
+router.delete("/folder/:id", isAuthenticated, FolderController.delete);
 
 export default router;

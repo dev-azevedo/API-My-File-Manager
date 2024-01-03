@@ -20,7 +20,7 @@ const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
 
   try {
     const { id } = verify(token, process.env.JWT_SECRET) as IDataToken;
-    req.body.idUser = id;
+    req.body.idUser = +id;
     return next();
   } catch (err) {
     return res.status(401).end();
